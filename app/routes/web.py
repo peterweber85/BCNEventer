@@ -136,9 +136,9 @@ def events():
     try:
         category_ids = raw_category_ids.split(',')
         category_ids = [ObjectId(cat_id) for cat_id in category_ids]
-        events = Event.objects(categories__in=category_ids).skip((page_num - 1) * page_count).limit(page_count)
+        events = Event.objects(categories__in=category_ids).order_by('date_time').skip((page_num - 1) * page_count).limit(page_count)
     except:
-        events = Event.objects.skip((page_num - 1) * page_count).limit(page_count)
+        events = Event.objects.order_by('date_time').skip((page_num - 1) * page_count).limit(page_count)
 
     return to_json(events)
 
