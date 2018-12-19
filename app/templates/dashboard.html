@@ -109,7 +109,7 @@
                              style="width: 15rem; border: 2px solid black;">
 
 
-                            <img v-if="event.category_names.length" onclick="$('#details').modal('show')" @click="updateFields(event.name,event.date_time, event.description, userEventIds.includes(event.id), event.category_names[0], event.id)" class="card-img-top selector" :src="'../static/' + event.category_names[0] + '.jpeg'"
+                            <img v-if="event.category_names.length" onclick="$('#details').modal('show')" @click="updateFields(event.name,event.date_time, event.description, userEventIds.includes(event.id), event.category_names[0], event.id, event.location)" class="card-img-top selector" :src="'../static/' + event.category_names[0] + '.jpeg'"
 
 
                                  width="200px" height="150px"
@@ -153,6 +153,10 @@
                                                 <div class="row">
                                                   <div class="col-md-4">Time:</div>
                                                   <div class="col-md-4">${typeof(edate)=='string'?edate.substr(-12):0}</div>
+                                                </div>
+                                                  <div class="row">
+                                                  <div class="col-md-4">Address:</div>
+                                                  <div class="col-md-8">${eaddress}</div>
                                                 </div>
                                                 <div class="row">
                                                   <div class="col-md-4">Description:</div>
@@ -205,13 +209,14 @@
                 };
             },
             methods: {
-                updateFields(name, date, desc, s, p, id){
+                updateFields(name, date, desc, s, p, id, location){
                     this.ename = name;
                     this.edate = date;
                     this.edescription = desc;
                     this.status = s;
                     this.path = '../static/' + p + '.jpeg';
                     this.eid = id;
+                    this.fetchAddress(location.coordinates[0],location.coordinates[1]);
                     return true;
                 },
                 ellipsis(text, maxLength = 50) {
@@ -220,6 +225,11 @@
                     }
 
                     return text
+                },
+                fetchAddress(lat, long) {
+                    axios.get(`/get_address?lat=${lat}&long=${long}`).then(({data}) => {
+                        this.eaddress = data;
+                    })
                 },
                 fetchCategories() {
                     axios.get(`/user_categories`).then(({data}) => {
@@ -331,7 +341,8 @@
                 edescription: null,
                 status: false,
                 path: null,
-                eid: null
+                eid: null,
+                eaddress: '',
             },
         })
     </script>

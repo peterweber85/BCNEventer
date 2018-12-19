@@ -5,6 +5,7 @@ from flask_login import current_user, login_user, login_required, logout_user
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField
 from wtforms.validators import InputRequired, Email, Length
+from geopy.geocoders import Nominatim
 
 import users.recommender as recommender
 from app.models.category import Category
@@ -181,3 +182,20 @@ def preferences():
     # user = User.objects(id=current_user.id).first()
     # recommender.set_recommended_events(user.id)
     return redirect(url_for('web.dashboard'))
+
+@web.route('/get_address')
+@login_required
+def get_address():
+    geolocator = Nominatim(user_agent="bcneventer")
+    lat = request.args.get('lat')
+    long = request.args.get('long')
+    try:
+        if lat == 'None' or long == 'None':
+            return ""
+        address = geolocator.reverse("" + lat + ", " + long + "").address
+        if address == None:
+            return ""
+        else:
+            return address.split(', Barcelona')[0]
+    except:
+        return ""
