@@ -1,10 +1,14 @@
 # BCNEventer
 
+## Project web
+https://dashboard.heroku.com/apps/bcneventer
+
+## Getting started
+
 So, you have decided to put some effort into this thing, very good! Please read on to know how to get started. Following these steps will make collaboration easy and keep the git flow clean and consistent. Keep in mind that this is not everything there is to GitHub, but covers most of the basics. If you have any questions, ask Philippe. Feel free to add new content to the _README_, but before changing content, please notify Philippe.
 
 Side note: you are all smart enough to understand this, but just to put it out there; if you encounter pieces of text/command between pointy brackets, e.g. `<branch>`, then this is a variable.
 
-## Getting started
 > NOTE: Make sure you don't have anything running on port 5000 (in the future, after adding mysql, probably we have to add port 3306 here)
 
 #### 1. Get Docker
